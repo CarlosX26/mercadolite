@@ -2,40 +2,53 @@
 
 Este projeto foi desenvolvido como parte de um desafio Full Stack. O objetivo era criar uma aplicação de comércio eletrônico, permitindo aos usuários adicionar produtos ao carrinho, removê-los e, ao concluir a compra, enviar um e-mail com o resumo do pedido.
 
-## Rodando localmente
+## Rodando com Docker (Recomendado)
 
 Clone o projeto
 
 ```bash
-  git clone git@github.com:CarlosX26/challenge-fullstack.git
+  git clone git@github.com:CarlosX26/mercadolite.git
 ```
 
 Entre no diretório do projeto
 
 ```bash
-  cd challenge-fullstack
+  cd mercadolite
 ```
 
-Rodando front-end
+1 - Configure as variáveis de ambiente no arquivo `.env`
+
+```bash
+  # Atualize com suas credenciais SMTP
+  SMTP_USER=seu-email@gmail.com
+  SMTP_PASS=sua-senha-de-app
+```
+
+2 - Execute o setup automatizado
+
+```bash
+  ./docker-setup.sh
+```
+
+Ou manualmente:
+
+```bash
+  docker-compose up --build -d
+  docker-compose exec backend yarn typeorm migration:run -d src/data-source.ts
+```
+
+### Acessos:
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
+- API Docs: http://localhost:3000/api-docs
+
+## Rodando localmente (sem Docker)
+
+### Front-end
 
 ```bash
   cd front-end
-```
-
-1 - Instale as dependências
-
-```bash
-  yarn
-  # or
-  npm i
-```
-
-2 - Rodando projeto
-
-```bash
-  yarn dev
-  # or
-  npm run dev
+  yarn && yarn dev
 ```
 
 ## Rotas front-end
@@ -45,49 +58,14 @@ Rodando front-end
 - "/adm/auth" -> fazer autenticação como adm ou se cadastrar como adm.
 - "/adm/dashboard" -> dashboard do adm para gerenciar produtos.
 
-Rodando back-end
+### Back-end
 
 ```bash
   cd back-end
-```
-
-1 - Instale as dependências
-
-```bash
   yarn
-  # or
-  npm i
-```
-
-2 - Preencha as variáveis de ambiente
-
-```bash
-  PORT=<port_application>
-
-  DB_URL=postgres://<pg_user>:<pg_pass>@<pg_host>:<pg_port>/<pg_db>
-
-  SECRET_KEY=<jwt_secret_key>
-
-  SMTP_HOST=
-  SMTP_PORT=
-  SMTP_USER=
-  SMTP_PASS=
-```
-
-3 - Rodando migrações
-
-```bash
+  # Configure .env com PostgreSQL local
   yarn typeorm migration:run -d src/data-source.ts
-  # or
-  npm run typeorm migration:run -d src/data-source.ts
-```
-
-4 - Rodando projeto
-
-```bash
   yarn dev
-  # or
-  npm run dev
 ```
 
 ## Documentação da API
@@ -101,3 +79,5 @@ Rodando back-end
 **Front-end:** React, Chakra UI e TypeScript.
 
 **Back-end:** Node.js, Express.js, TypeScript e PostgreSQL.
+
+**Infraestrutura:** Docker e Docker Compose.

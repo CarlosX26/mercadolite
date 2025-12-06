@@ -8,11 +8,16 @@ import api from "../utils/axios"
 const AdminContext = createContext({} as IAdminContext)
 
 export const AdminProvider = ({ children }: { children: React.ReactNode }) => {
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const { isOpen, onClose: closeModal, onOpen } = useDisclosure()
 
   const [adminProducts, setAdminProducts] = useState<IProduct[]>([])
   const [currentProduct, setCurrentProduct] = useState<IProduct>()
   const [modal, setModal] = useState<IModal>("addProduct")
+
+  const onClose = () => {
+    setCurrentProduct(undefined)
+    closeModal()
+  }
 
   const openModalAddProduct = () => {
     setModal("addProduct")

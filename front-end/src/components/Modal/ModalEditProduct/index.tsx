@@ -21,8 +21,14 @@ import { IProductForm } from "../../../validations/types"
 import { ChangeEvent } from "react"
 
 export const ModalEditProduct = () => {
-  const { isOpen, onClose, adminProducts, updateProduct, setCurrentProduct } =
-    useAdminContext()
+  const {
+    isOpen,
+    onClose,
+    adminProducts,
+    updateProduct,
+    setCurrentProduct,
+    currentProduct,
+  } = useAdminContext()
 
   const {
     register,
@@ -31,6 +37,15 @@ export const ModalEditProduct = () => {
     setValue,
   } = useForm<IProductForm>({
     resolver: zodResolver(Product),
+    defaultValues: currentProduct
+      ? {
+          name: currentProduct.name,
+          description: currentProduct.description,
+          imgUrl: currentProduct.imgUrl,
+          inventory: currentProduct.inventory,
+          price: currentProduct.price,
+        }
+      : undefined,
   })
 
   const changeProduct = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -50,18 +65,22 @@ export const ModalEditProduct = () => {
       <ModalOverlay />
 
       <ModalContent mx={{ base: "16px", sm: "0" }}>
-        <ModalHeader>Editar produto</ModalHeader>
+        <ModalHeader>
+          Editar produto {currentProduct ? "- " + currentProduct?.name : ""}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody as={"form"} onSubmit={handleSubmit(updateProduct)}>
           <VStack>
-            <Select onChange={changeProduct}>
-              <option>Selecione um produto</option>
-              {adminProducts.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.name}
-                </option>
-              ))}
-            </Select>
+            {!currentProduct && (
+              <Select onChange={changeProduct}>
+                <option>Selecione um produto</option>
+                {adminProducts.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </Select>
+            )}
             <FormControl isInvalid={Boolean(errors.name?.message)}>
               <FormLabel>Nome do produto</FormLabel>
               <Input

@@ -36,8 +36,8 @@ export const AuthPage = () => {
         borderRadius="56px 0 0 56px"
         bgGradient="linear(to-r, teal.600, gray.700)"
       >
-        <Heading color="white">BEST</Heading>
-        <Heading color="white">SHOP</Heading>
+        <Heading color="white">MERCADO</Heading>
+        <Heading color="white">LITE</Heading>
       </Flex>
     </Flex>
   )

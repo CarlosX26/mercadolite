@@ -14,8 +14,14 @@ import { useAdminContext } from "../../../contexts/adminContext"
 import { ChangeEvent, FormEvent } from "react"
 
 export const ModalDeleteProduct = () => {
-  const { isOpen, onClose, adminProducts, deleteProduct, setCurrentProduct } =
-    useAdminContext()
+  const {
+    isOpen,
+    onClose,
+    adminProducts,
+    deleteProduct,
+    setCurrentProduct,
+    currentProduct,
+  } = useAdminContext()
 
   const changeProduct = (e: ChangeEvent<HTMLSelectElement>) => {
     const productId = e.target.value
@@ -33,18 +39,22 @@ export const ModalDeleteProduct = () => {
       <ModalOverlay />
 
       <ModalContent mx={{ base: "16px", sm: "0" }}>
-        <ModalHeader>Deletar produto</ModalHeader>
+        <ModalHeader>
+          Deletar produto {currentProduct ? "- " + currentProduct?.name : ""}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody as={"form"} onSubmit={handleSubmit}>
           <VStack>
-            <Select onChange={changeProduct}>
-              <option>Selecione um produto</option>
-              {adminProducts.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.name}
-                </option>
-              ))}
-            </Select>
+            {!currentProduct && (
+              <Select onChange={changeProduct}>
+                <option>Selecione um produto</option>
+                {adminProducts.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </Select>
+            )}
 
             <ButtonGroup w="100%">
               <Button

@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: mercadolite-db
+    environment:
+      POSTGRES_DB: mercadolite
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mercadolite-network
+
+  backend:
+    build: ./back-end
+    container_name: mercadolite-backend
+    environment:
+      PORT: 3000
+      DB_URL: postgres://postgres:postgres@database:5432/mercadolite
+      SECRET_KEY: your-secret-key-here
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USER: your-email@gmail.com
+      SMTP_PASS: your-app-password
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    volumes:
+      - ./back-end:/app
+      - /app/node_modules
+    networks:
+      - mercadolite-network
+
+  frontend:
+    build: ./front-end
+    container_name: mercadolite-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./front-end:/app
+      - /app/node_modules
+    networks:
+      - mercadolite-network
+
+volumes:
+  postgres_data:
+
+networks:
+  mercadolite-network:
+    driver: bridge

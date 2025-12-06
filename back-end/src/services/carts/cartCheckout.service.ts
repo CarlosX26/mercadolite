@@ -27,7 +27,7 @@ const cartCheckoutService = async (userId: string): Promise<Cart> => {
 
   const emailTemplate = getTemplateMail(user?.email!, completedCart.productCart)
 
-  await sendMail(emailTemplate)
+  // await sendMail(emailTemplate)
 
   return completedCart
 }
