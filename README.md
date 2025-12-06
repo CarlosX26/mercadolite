@@ -1,4 +1,4 @@
-# CHALLENGE FULL-STACK
+# MERCADO LITE
 
 Este projeto foi desenvolvido como parte de um desafio Full Stack. O objetivo era criar uma aplicação de comércio eletrônico, permitindo aos usuários adicionar produtos ao carrinho, removê-los e, ao concluir a compra, enviar um e-mail com o resumo do pedido.
 
@@ -38,6 +38,7 @@ Ou manualmente:
 ```
 
 ### Acessos:
+
 - Frontend: http://localhost:5173
 - Backend: http://localhost:3000
 - API Docs: http://localhost:3000/api-docs
